@@ -93,19 +93,9 @@ python dataset_generation.py \
   --output subsequences_dataset.csv
 ```
 
-### Preprocess and clean data
+### Model Training
 
-```bash
-python preprocess.py --input subsequences_dataset.csv --output clean_dataset.csv
-```
-
-### Train a model (optional)
-
-If you have the Hugging Face environment set up:
-
-```bash
-python train_model.py --dataset clean_dataset.csv --model bert-base-uncased
-```
+Run all the cells of the model.ipynb to train the model, with the kernel being the .venv
 
 ---
 
