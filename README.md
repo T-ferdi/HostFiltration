@@ -1,6 +1,4 @@
-Of course — here’s the **actual `README.md` code block** you can copy directly into your repo (no extra commentary):
 
-```markdown
 # 🧬 HostFiltration
 
 **HostFiltration** is a Python-based pipeline for generating and preprocessing microbial and host genomic datasets to support **host contamination filtration** in metagenomic sequencing workflows.  
@@ -41,7 +39,6 @@ Each script can be run independently or combined in a unified workflow.
 
 ## 📂 Repository Structure
 
-```
 
 HostFiltration/
 │
@@ -53,7 +50,6 @@ HostFiltration/
 ├── README.md                  # Project overview and usage guide
 └── results/                   # Output datasets and logs (ignored in .gitignore)
 
-````
 
 ---
 
@@ -159,10 +155,4 @@ This project is released under the **MIT License**.
 Computational Research Intern, Knight Lab
 🔗 [https://github.com/T-ferdi](https://github.com/T-ferdi)
 
-```
-
----
-
-✅ Just copy that entire block into a file named **`README.md`** in your project root and commit it — GitHub will automatically render the emojis, headers, and code formatting correctly.
-```
 
