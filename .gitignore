@@ -4,3 +4,5 @@ results/
 __pycache__/
 .vscode/
 .DS_Store
+*.fna.gz
+*.csv

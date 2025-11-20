@@ -11,4 +11,11 @@ dependencies = [
     "scikit-learn>=1.7.2",
     "torch>=2.9.0",
     "transformers>=4.57.1",
+    "biopython>=1.83",
+    "matplotlib>=3.8.0",
+    "seaborn>=0.13.0",
 ]
+
+
+[project.scripts]
+hostfiltration = "hostfiltration.cli.main:main"

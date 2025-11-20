@@ -1,0 +1,2 @@
+[console_scripts]
+hostfiltration = hostfiltration.cli.main:main

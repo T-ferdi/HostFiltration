@@ -39,14 +39,26 @@ def main():
     - Combines them into a labeled dataset
     """
     parser = argparse.ArgumentParser()
+    # Metadata Tag
     parser.add_argument("--metadata", required=True,
                         help="Path to the metadata TSV file (uncompressed)")
+    # Sample Size Tag
     parser.add_argument("--sample-size", type=int, default=10,
                         help="Number of microbial genomes to sample and extract from")
+    # Window Size Tag
     parser.add_argument("--window-size", type=int, default=150,help="Length of each subsequence to extract")
-    parser.add_argument("--stride", type=int, default=150, help="Step size between subseqneces (no overlap if == window_size)")
+    # Stride Length Tag
+    parser.add_argument("--stride", type=int, default=150, help="Step size btween subsequences (no overlap if == window_size)")
+    # Output Tag
     parser.add_argument("--output", type=str, default="subsequences_dataset.csv", help="Output CSV file for the combined dataset")
+    # Ratio tag
+    parser.add_argument("--ratio", type=str, default="1:1", help="Ratio of human to microbial sequences")
     args = parser.parse_args()
+    
+    try:
+        human_r, microbial_r = map(float, args.ratio.split(":"))
+    except:
+        raise ValueError("Invalid --ratio format. Expected 'HUMAN:MICROBIAL', e.g. 1:4")
 
     df = pd.read_csv(args.metadata, sep='\t')
 
@@ -87,6 +99,9 @@ def main():
     num_microbial_seqs = len(microbial_df)
     print(f"✅ Extracted {num_microbial_seqs} microbial sequences.")
 
+    num_human_seqs = int((human_r / microbial_r) * num_microbial_seqs)
+    print(f"📊 Using ratio {args.ratio} → Extracting {num_human_seqs} human sequences.")
+
     # Download and extract matched number of human sequences
     human_url = ("https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/001/405/"
                  "GCA_000001405.29_GRCh38.p14/GCA_000001405.29_GRCh38.p14_genomic.fna.gz")
@@ -110,7 +125,7 @@ def main():
         "Homo sapiens",
         label=0,
         window_size=args.window_size,
-        n=num_microbial_seqs)
+        n=num_human_seqs)
         print(f"✅ Extracted {len(human_df)} human sequences.")
     except Exception as e:
         print(f"❌ Failed to process human genome: {e}")
