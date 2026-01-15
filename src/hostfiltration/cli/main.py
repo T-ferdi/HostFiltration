@@ -34,7 +34,8 @@ def generate_dataset_command(args):
         '--window-size', str(args.window_size),
         '--stride', str(args.stride),
         '--output', args.output,
-        '--ratio', args.ratio  
+        '--ratio', args.ratio,
+        '--human_genome_path', args.human_genome_path
     ]
     generate_main()
 
@@ -192,7 +193,7 @@ def main():
             "  3. Evaluate a trained model on held-out data.\n"
             "  4. Predict labels for new sequences (CSV, FASTA, or single sequence).\n\n"
             "Example usage:\n"
-            "  hostfiltration generate --metadata metadata.tsv --sample-size 10 --window-size 150 --stride 150 --output subsequences_dataset.csv -- ratio 1:1\n"
+            "  hostfiltration generate --metadata metadata.tsv --sample-size 10 --window-size 150 --stride 150 --output subsequences_dataset.csv -- ratio 1:1 --human-genome human_genome.fna.qz\n"
             "  hostfiltration train --data dataset.csv --epochs 10\n"
             "  hostfiltration evaluate --checkpoint results/model.ckpt --data test.csv\n"
             "  hostfiltration predict --checkpoint results/model.ckpt --input sequences.fasta"
@@ -219,6 +220,7 @@ def main():
     generate_parser.add_argument('--stride', type=int, default=150, help='Step size between subsequences; set < window_size for overlap.')
     generate_parser.add_argument('--output', default='subsequences_dataset.csv', help='Path to save the resulting CSV dataset.')
     generate_parser.add_argument('--ratio', type=str, default='1:1', help='Ratio of human to microbial sequences (e.g., 1:4).')
+    generate_parser.add_argument('--human_genome_path', type=str, default=None, help='Path to a local human genome .fna.gz file (optional).')
 
     # Train command
     train_parser = subparsers.add_parser(

@@ -53,6 +53,7 @@ def main():
     parser.add_argument("--output", type=str, default="subsequences_dataset.csv", help="Output CSV file for the combined dataset")
     # Ratio tag
     parser.add_argument("--ratio", type=str, default="1:1", help="Ratio of human to microbial sequences")
+    parser.add_argument("--human_genome_path", type=str, default=None, help="Path to a local human genome .fna.gz file (optional)")
     args = parser.parse_args()
     
     try:
@@ -105,23 +106,23 @@ def main():
     # Download and extract matched number of human sequences
     human_url = ("https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/001/405/"
                  "GCA_000001405.29_GRCh38.p14/GCA_000001405.29_GRCh38.p14_genomic.fna.gz")
-    human_fna = "human_GRCh38.fna.gz"
+    human_path = args.human_genome_path if args.human_genome_path else "human_GRCh38.fna.gz"
 
     # Check if human genome is already downloaded
-    if os.path.exists(human_fna) and os.path.getsize(human_fna) > 1000:
-        print(f"✅ Using cached human genome: {human_fna}")
+    if human_path is not None and os.path.exists(human_path) and os.path.getsize(human_path) > 1000:
+        print(f"✅ Using cached human genome: {human_path}")
     else:
         print(f"⬇️  Downloading human genome: {human_url}")
         try:
-            with tqdm(unit='B', unit_scale=True, desc=human_fna, leave=True) as t:
-                urllib.request.urlretrieve(human_url, human_fna, reporthook=tqdm_hook(t))
+            with tqdm(unit='B', unit_scale=True, desc=human_path, leave=True) as t:
+                urllib.request.urlretrieve(human_url, human_path, reporthook=tqdm_hook(t))
         except Exception as e:
             print(f"❌ Failed to download human genome: {e}")
             return
     
     try:
         human_df = extract_random_subsequences_from_fna(
-            human_fna,
+            human_path,
         "Homo sapiens",
         label=0,
         window_size=args.window_size,
